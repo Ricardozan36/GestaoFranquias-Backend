@@ -1,4 +1,5 @@
 using Franquias.Api.Data;
+using Franquias.Api.Repositories; // <-- Esta é a linha mágica que estava faltando!
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,10 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2. Adiciona o suporte para a arquitetura de Controllers exigida no trabalho
+// 2. INJEÇÃO DO REPOSITÓRIO GENÉRICO
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+// 3. Adiciona o suporte para a arquitetura de Controllers exigida no trabalho
 builder.Services.AddControllers();
 
-// 3. Adiciona o Swagger para testarmos a API visualmente
+// 4. Adiciona o Swagger para testarmos a API visualmente
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -26,7 +30,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-// 4. Avisa o sistema para procurar as nossas rotas dentro da pasta Controllers
+// 5. Avisa o sistema para procurar as nossas rotas dentro da pasta Controllers
 app.MapControllers();
 
 app.Run();
