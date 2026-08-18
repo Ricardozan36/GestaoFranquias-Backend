@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Franquias.Api.Data;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Franquias.Api.Repositories
 {
@@ -24,6 +26,11 @@ namespace Franquias.Api.Repositories
         public async Task<T?> ObterPorIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<T>> BuscarAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.Where(predicate).ToListAsync();
         }
 
         public async Task AdicionarAsync(T entity)
