@@ -7,24 +7,25 @@ namespace Franquias.Api.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        // Suas tabelas que já existem e estão funcionando perfeitamente:
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Franqueadora> Franqueadoras { get; set; }
         public DbSet<UnidadeFranqueada> Unidades { get; set; }
+        public DbSet<ProdutoServico> Produtos { get; set; }
         public DbSet<Fornecedor> Fornecedores { get; set; }
-        public DbSet<ProdutoServico> ProdutosServicos { get; set; }
         public DbSet<Estoque> Estoques { get; set; }
         public DbSet<Venda> Vendas { get; set; }
-        public DbSet<ItemVenda> ItensVenda { get; set; }
-        public DbSet<Royalty> Royalties { get; set; }
-        public DbSet<ChamadoSuporte> Chamados { get; set; }
 
+        // ADICIONE ESTAS DUAS NOVAS LINHAS:
+        public DbSet<ChamadoSuporte> Chamados { get; set; }
+        public DbSet<Royalty> Royalties { get; set; }
+
+        // (Mantenha o método OnModelCreating intacto abaixo)
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            // Cumprindo as regras de negócio obrigatórias do trabalho (Validações Únicas)
-            modelBuilder.Entity<Usuario>().HasIndex(u => u.Email).IsUnique();
-            modelBuilder.Entity<UnidadeFranqueada>().HasIndex(u => u.CNPJ).IsUnique();
+            modelBuilder.Entity<UnidadeFranqueada>()
+                .HasIndex(u => u.CNPJ)
+                .IsUnique();
         }
     }
 }

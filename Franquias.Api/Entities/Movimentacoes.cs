@@ -28,30 +28,7 @@ namespace Franquias.Api.Entities
         public ProdutoServico? Produto { get; set; }
     }
 
-    public class Royalty
-    {
-        public int Id { get; set; }
-        public int MesRef { get; set; }
-        public int AnoRef { get; set; }
-        public decimal FaturamentoBase { get; set; }
-        public decimal ValorCobrado { get; set; }
-        public bool Pago { get; set; }
+    
 
-        public int UnidadeFranqueadaId { get; set; }
-        public UnidadeFranqueada? Unidade { get; set; }
-    }
-
-    public class ChamadoSuporte
-    {
-        public int Id { get; set; }
-        public string Descricao { get; set; } = string.Empty;
-        public string Categoria { get; set; } = string.Empty;
-        public string Prioridade { get; set; } = string.Empty;
-        public StatusChamado Status { get; set; } = StatusChamado.Aberto;
-        public DateTime DataAbertura { get; set; } = DateTime.Now;
-        public DateTime? DataFechamento { get; set; }
-
-        public int UnidadeFranqueadaId { get; set; }
-        public UnidadeFranqueada? Unidade { get; set; }
-    }
+    
 }
