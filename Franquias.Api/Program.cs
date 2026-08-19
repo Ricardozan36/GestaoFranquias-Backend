@@ -2,6 +2,9 @@ using Franquias.Api.Data;
 using Franquias.Api.Repositories;
 using Franquias.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,34 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // 2. INJEÇÃO DO REPOSITÓRIO GENÉRICO E DOS SERVIÇOS
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IVendasService, VendasService>();
+builder.Services.AddScoped<TokenService>();
+
+// ---- INÍCIO DA CONFIGURAÇÃO DO JWT ----
+var jwtConfig = builder.Configuration.GetSection("Jwt");
+var secretKey = jwtConfig["Key"];
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false; // Como é local (dev), pode ser false
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey ?? "")),
+        ValidateIssuer = true,
+        ValidIssuer = jwtConfig["Issuer"],
+        ValidateAudience = true,
+        ValidAudience = jwtConfig["Audience"],
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+// ---- FIM DA CONFIGURAÇÃO DO JWT ----
 
 // 3. CONTROLLERS E TRATAMENTO DE CICLO INFINITO JSON
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -30,7 +61,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 5. SWAGGER
+// 5. SWAGGER SIMPLES (Restaurado para compilar sem erros)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -47,8 +78,9 @@ app.UseHttpsRedirection();
 // 6. ATIVA O CORS ANTES DA AUTORIZAÇÃO
 app.UseCors("PermitirTudo");
 
-app.UseAuthorization();
+// 7. PROTEÇÃO DAS ROTAS E NÍVEL DE ACESSO
+app.UseAuthentication(); // <-- Confere se a pessoa tem o Token (Identidade)
+app.UseAuthorization();  // <-- Confere o perfil da pessoa (Acesso)
+
 app.MapControllers();
-
-
 app.Run();

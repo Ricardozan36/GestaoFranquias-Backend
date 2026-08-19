@@ -2,9 +2,11 @@ using Franquias.Api.Entities;
 using Franquias.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; // Necessário para capturarmos o erro de banco de dados
+using Microsoft.AspNetCore.Authorization;
 
 namespace Franquias.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UnidadesController : ControllerBase
