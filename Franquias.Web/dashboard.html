@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestão de Franquias S/A</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-layout">
+
+    <!-- Menu Lateral Escuro -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestão S/A</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Dashboard Geral</a></li>
+            <li><a href="#">Unidades</a></li>
+            <li><a href="#" id="btn-sair">Sair do Sistema</a></li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <header class="top-header">
+            <h1>Dashboard Gerencial</h1>
+            <p>Visão geral da rede de franquias.</p>
+        </header>
+
+        <div class="cards-grid">
+            <!-- Cartão 1: Unidades (Este vai puxar da API!) -->
+            <div class="card">
+                <h3>Unidades Ativas</h3>
+                <div class="card-value text-primary" id="qtd-unidades">Carregando...</div>
+            </div>
+
+            <!-- Cartão 2: Faturamento -->
+            <div class="card">
+                <h3>Faturamento Mensal</h3>
+                <div class="card-value text-success">R$ 11.350</div>
+            </div>
+
+            <!-- Cartão 3: Alertas -->
+            <div class="card">
+                <h3>Chamados Abertos</h3>
+                <div class="card-value text-danger">1</div>
+            </div>
+        </div>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
