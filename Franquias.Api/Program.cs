@@ -82,5 +82,26 @@ app.UseCors("PermitirTudo");
 app.UseAuthentication(); // <-- Confere se a pessoa tem o Token (Identidade)
 app.UseAuthorization();  // <-- Confere o perfil da pessoa (Acesso)
 
+// ---- INÍCIO DO SEMEADOR DE DADOS (SEED) ----
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<Franquias.Api.Data.AppDbContext>();
+        Franquias.Api.Data.DbInitializer.Initialize(context);
+        Console.WriteLine("Banco de dados verificado e populado com sucesso!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Ocorreu um erro ao popular o banco de dados: " + ex.Message);
+        if (ex.InnerException != null)
+        {
+            Console.WriteLine("O CULPADO É: " + ex.InnerException.Message);
+        }
+    }
+}
+// ---- FIM DO SEMEADOR DE DADOS ----
+
 app.MapControllers();
 app.Run();
