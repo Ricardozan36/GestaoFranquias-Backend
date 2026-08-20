@@ -1,0 +1,29 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" Color="Color.Dark">
+        <MudIcon Icon="@Icons.Material.Filled.Business" Size="Size.Large" Class="mr-3" />
+        <MudText Typo="Typo.h5" Class="ml-3">Gestão de Franquias S/A</MudText>
+        <MudSpacer />
+        <MudButton Variant="Variant.Text" Style="color: white;">Sair</MudButton>
+    </MudAppBar>
+
+    <MudDrawer Open="true" Elevation="2" ClipMode="DrawerClipMode.Always">
+        <MudNavMenu>
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.Dashboard">Dashboard Geral</MudNavLink>
+            <MudNavLink Href="/unidades" Icon="@Icons.Material.Filled.Store">Unidades</MudNavLink>
+            <MudNavLink Href="/vendas" Icon="@Icons.Material.Filled.AttachMoney">Vendas e Faturamento</MudNavLink>
+            <MudNavLink Href="/produtos" Icon="@Icons.Material.Filled.Inventory">Estoque e Produtos</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-4 pt-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
