@@ -6,7 +6,7 @@
     font-family: 'Roboto', sans-serif;
 }
 
-/* Fundo da tela: um cinza bem claro e elegante */
+/* Fundo da tela de login */
 body {
     background-color: #f4f6f8;
     display: flex;
@@ -105,9 +105,6 @@ button:hover {
     font-weight: 500;
 }
 
-
-
-
 /* =========================================
    ESTILOS DO DASHBOARD (dashboard.html)
    ========================================= */
@@ -122,7 +119,7 @@ button:hover {
 /* Menu Lateral */
 .sidebar {
     width: 250px;
-    background-color: #343a40; /* Cor escura estilo MudBlazor */
+    background-color: #343a40; 
     color: white;
     min-height: 100vh;
     display: flex;
@@ -200,3 +197,33 @@ button:hover {
 .text-primary { color: #5C6BC0; }
 .text-success { color: #4CAF50; }
 .text-danger { color: #F44336; }
+
+/* =========================================
+   ESTILOS DA TABELA DE VENDAS
+   ========================================= */
+.mt-4 {
+    margin-top: 30px;
+}
+
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.sales-table th, .sales-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.sales-table th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.sales-table tr:last-child td {
+    border-bottom: none; /* Tira a linha do último item para ficar elegante */
+}

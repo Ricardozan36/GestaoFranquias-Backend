@@ -80,5 +80,16 @@ namespace Franquias.Api.Services
             
             return novaVenda;
         }
+
+        // ====================================================================
+        // --- NOVA FERRAMENTA: A implementação de fato que vai no banco ---
+        // ====================================================================
+        public async Task<IEnumerable<Venda>> ObterTodasAsync()
+        {
+            // Usamos o repositório genérico para listar tudo
+            // Nota: Se a linha abaixo ficar vermelha, troque 'ObterTodosAsync' 
+            // pelo nome exato que está no seu IRepository (ex: BuscarTodosAsync ou GetAllAsync)
+            return await _vendaRepository.ObterTodosAsync(); 
+        }
     }
 }

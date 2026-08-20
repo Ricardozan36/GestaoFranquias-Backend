@@ -26,21 +26,51 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById('qtd-unidades').innerText = unidades.length;
         }
 
-        // --- BUSCA FATURAMENTO (Vendas) ---
+        // --- BUSCA FATURAMENTO E ÚLTIMAS VENDAS ---
         const resVendas = await fetch('http://localhost:5062/api/vendas', fetchOptions);
         if (resVendas.ok) {
             const vendas = await resVendas.json();
             
-            // Soma o valor de todas as vendas (Assumindo que sua classe C# tem uma propriedade 'valor' ou 'Valor')
+            // 1. Soma o valor para o Cartão Superior
             let totalFaturamento = 0;
             vendas.forEach(venda => {
                 totalFaturamento += (venda.valor || venda.Valor || 0);
             });
-
-            // Formata bonitinho para Reais (R$)
             document.getElementById('valor-faturamento').innerText = totalFaturamento.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // 2. Preenche a Tabela Inferior (Pegando as 5 últimas)
+            const tabelaVendas = document.getElementById('tabela-vendas');
+            tabelaVendas.innerHTML = ''; // Limpa o "Carregando..."
+
+            // Pega os 5 últimos registros e inverte a ordem (para o mais novo ficar no topo)
+            const ultimasVendas = vendas.slice(-5).reverse();
+
+            if (ultimasVendas.length === 0) {
+                tabelaVendas.innerHTML = '<tr><td colspan="3" style="text-align: center;">Nenhuma venda registrada ainda.</td></tr>';
+            } else {
+                ultimasVendas.forEach(venda => {
+                    const tr = document.createElement('tr');
+                    
+                    const id = venda.id || venda.Id || '-';
+                    const valorFormatado = (venda.valor || venda.Valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    
+                    // Se a sua API envia a data da venda, formatamos. Senão, fica um tracinho.
+                    let dataFormatada = "-";
+                    if (venda.data || venda.Data) {
+                        dataFormatada = new Date(venda.data || venda.Data).toLocaleDateString('pt-BR');
+                    }
+
+                    tr.innerHTML = `
+                        <td>#${id}</td>
+                        <td>${dataFormatada}</td>
+                        <td class="text-success" style="font-weight: 500;">${valorFormatado}</td>
+                    `;
+                    tabelaVendas.appendChild(tr);
+                });
+            }
         } else {
             document.getElementById('valor-faturamento').innerText = "R$ 0,00";
+            document.getElementById('tabela-vendas').innerHTML = '<tr><td colspan="3" style="text-align: center;">Erro ao carregar vendas.</td></tr>';
         }
 
         // --- BUSCA CHAMADOS ---
