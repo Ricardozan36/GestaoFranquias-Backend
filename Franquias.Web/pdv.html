@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frente de Caixa (PDV) - Gestão de Franquias</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-layout">
+
+    <!-- Menu Lateral Específico para a Franquia -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h2>Operação</h2>
+        </div>
+        <!-- Ajuste aqui: display flex para empurrar o último item pro fim -->
+        <ul class="nav-links" style="display: flex; flex-direction: column; flex: 1;">
+            <li><a href="pdv.html" class="active">Frente de Caixa (PDV)</a></li>
+            <li><a href="#">Abrir Chamado (Suporte)</a></li>
+            <li><a href="#" id="btn-sair">Sair do Sistema</a></li>
+
+            <!-- Botão do Admin (Empurrado para o local da imagem) -->
+            <li style="margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05);">
+                <a href="#" id="btn-admin-dash" style="color: #f1416c; font-weight: 600;">
+                    <span style="margin-right: 10px;">🔒</span> Acesso Admin
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <header class="top-header">
+            <h1>Ponto de Venda (PDV)</h1>
+            <p>Registre as vendas da sua unidade rapidamente.</p>
+        </header>
+
+        <div class="cards-grid">
+            <div class="card" style="grid-column: span 2;">
+                <h3>Lançar Produto</h3>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <div class="input-group" style="flex: 2; margin-bottom: 0;">
+                        <label>Selecione o Produto (Catálogo)</label>
+                        <select id="select-produto" style="width: 100%; padding: 14px 16px; background-color: #f5f8fa; border: 1px solid #e4e6ef; border-radius: 8px; font-size: 14px; outline: none;">
+                            <option value="">Carregando produtos do servidor...</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1; margin-bottom: 0;">
+                        <label>Quantidade</label>
+                        <input type="number" id="qtd-produto" value="1" min="1" style="width: 100%; padding: 14px 16px; background-color: #f5f8fa; border: 1px solid #e4e6ef; border-radius: 8px; outline: none;">
+                    </div>
+                    <button id="btn-adicionar" style="flex: 1; margin-top: 22px; background-color: #1bc5bd;">Adicionar Item</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Total da Venda Atual</h3>
+                <div class="card-value text-primary" id="total-venda" style="font-size: 42px; margin: 15px 0;">R$ 0,00</div>
+                <button id="btn-finalizar" style="background-color: #3699ff; font-size: 16px; padding: 16px;">Finalizar Venda</button>
+                <p id="msg-venda" style="margin-top: 15px; font-size: 14px; font-weight: 500; text-align: center; display: none;"></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Autenticação do Admin Oculto -->
+    <div id="modal-admin" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; justify-content: center; align-items: center;">
+        <div class="login-card" style="box-shadow: 0 15px 35px rgba(0,0,0,0.3); max-width: 350px; padding: 40px 30px;">
+            <h2 style="color: #f1416c; font-size: 20px;">Acesso Restrito</h2>
+            <p style="font-size: 13px; margin-bottom: 20px;">Insira suas credenciais de chefe.</p>
+
+            <div class="input-group">
+                <label>E-mail Admin</label>
+                <input type="email" id="email-admin" value="admin@franquia.com">
+            </div>
+
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" id="senha-admin" value="123456">
+            </div>
+
+            <p id="msg-erro-admin" class="erro-oculto" style="color: #f1416c; margin-bottom: 15px; display: none; font-size: 13px;"></p>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button id="btn-cancelar-admin" style="background-color: #e4e6ef; color: #3f4254; flex: 1;">Voltar</button>
+                <button id="btn-logar-admin" style="background-color: #f1416c; flex: 1;">Liberar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="pdv.js"></script>
+</body>
+</html>

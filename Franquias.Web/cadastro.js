@@ -25,12 +25,13 @@ document.getElementById('btn-cadastrar').addEventListener('click', async functio
             headers: {
                 'Content-Type': 'application/json'
             },
-            // AJUSTE CIRÚRGICO AQUI: Trocamos 'senha' por 'senhaHash' e adicionamos 'ativo: true'
+            // AJUSTE CIRÚRGICO AQUI: Adicionamos o 'perfil: 1' para criar um Franqueado
             body: JSON.stringify({ 
                 nome: nome, 
                 email: email, 
                 senhaHash: senha, 
-                ativo: true 
+                ativo: true,
+                perfil: 1 
             })
         });
 

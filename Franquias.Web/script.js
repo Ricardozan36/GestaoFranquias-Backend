@@ -1,25 +1,23 @@
 document.getElementById('btn-login').addEventListener('click', async function() {
-    // 1. Pega os valores que o usuário digitou nas caixas de texto
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
-    const mensagemErro = document.getElementById('mensagem-erro');
+    const mensagem = document.getElementById('mensagem-erro');
+    const btn = document.getElementById('btn-login');
 
-    // Esconde a mensagem de erro sempre que tentar um novo login
-    mensagemErro.style.display = 'none';
+    // Esconde a mensagem de erro toda vez que clica
+    mensagem.style.display = 'none';
 
-    // Validação simples
+    // Validação rápida
     if (!email || !senha) {
-        mensagemErro.innerText = "Por favor, preencha todos os campos.";
-        mensagemErro.style.display = 'block';
+        mensagem.innerText = "Por favor, preencha e-mail e senha.";
+        mensagem.style.display = 'block';
         return;
     }
 
-    // Muda o texto do botão para dar um feedback visual
-    const btn = document.getElementById('btn-login');
-    btn.innerText = "Carregando...";
+    btn.innerText = "Autenticando...";
 
     try {
-        // 2. Bate na porta da sua API (Back-End)
+        // Bate na porta do seu AuthController
         const response = await fetch('http://localhost:5062/api/auth/login', {
             method: 'POST',
             headers: {
@@ -28,25 +26,40 @@ document.getElementById('btn-login').addEventListener('click', async function() 
             body: JSON.stringify({ email: email, senha: senha })
         });
 
-        // 3. Analisa a resposta da API
         if (response.ok) {
-            const result = await response.json();
+            const data = await response.json();
             
-            // Sucesso! Guarda o Token no "cofre" do navegador (LocalStorage)
-            localStorage.setItem('authToken', result.token);
-            
-            // Redireciona para a página do Dashboard (que vamos criar na sequência)
-            window.location.href = 'dashboard.html';
+            // Salva a chave do cofre e o perfil no navegador
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('userPerfil', data.perfil);
+
+            // ==========================================
+            // A TRAVA DE SEGURANÇA E ROTEAMENTO INTELIGENTE
+            // ==========================================
+            // Dependendo de como seu Enum está no C#, ele pode vir como 'Admin', 'Administrador' ou '0'. 
+            // Cobrimos todas as bases para garantir.
+            if (data.perfil === 'Admin' || data.perfil === 'Administrador' || data.perfil === 0 || data.perfil === '0') {
+                
+                // É o chefão. Vai para o Dashboard ver o dinheiro.
+                window.location.href = 'dashboard.html'; 
+                
+            } else {
+                
+                // É a franquia operando. Vai para a Frente de Caixa.
+                window.location.href = 'pdv.html'; 
+                
+            }
         } else {
-            // E-mail ou senha errados
-            mensagemErro.innerText = "E-mail ou senha incorretos. Tente novamente.";
-            mensagemErro.style.display = 'block';
+            // Erro de senha ou usuário inativo (retornos do seu C#)
+            const errorData = await response.json();
+            mensagem.innerText = errorData.mensagem || "E-mail ou senha incorretos.";
+            mensagem.style.display = 'block';
             btn.innerText = "Entrar no Sistema";
         }
     } catch (error) {
-        // Se cair aqui, a API provavelmente está desligada
-        mensagemErro.innerText = "Erro de conexão. Verifique se a API está rodando.";
-        mensagemErro.style.display = 'block';
+        // API Desligada
+        mensagem.innerText = "Erro de conexão com o servidor. A API está ligada?";
+        mensagem.style.display = 'block';
         btn.innerText = "Entrar no Sistema";
     }
 });

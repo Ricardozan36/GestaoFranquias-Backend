@@ -1,6 +1,8 @@
 using Franquias.Api.DTOs;
 using Franquias.Api.Entities;
 using Franquias.Api.Repositories;
+using Franquias.Api.Data; // Adicionado para enxergar o AppDbContext
+using Microsoft.EntityFrameworkCore; // Adicionado para destrancar o comando .Include()
 
 namespace Franquias.Api.Services
 {
@@ -10,23 +12,26 @@ namespace Franquias.Api.Services
         private readonly IRepository<ProdutoServico> _produtoRepository;
         private readonly IRepository<Estoque> _estoqueRepository;
         private readonly IRepository<UnidadeFranqueada> _unidadeRepository;
+        private readonly AppDbContext _context; // A nossa "chave-mestra"
 
-        // Injetando 4 repositórios diferentes para orquestrar a regra de negócio
+        // Construtor atualizado para receber o AppDbContext
         public VendasService(
             IRepository<Venda> vendaRepository,
             IRepository<ProdutoServico> produtoRepository,
             IRepository<Estoque> estoqueRepository,
-            IRepository<UnidadeFranqueada> unidadeRepository)
+            IRepository<UnidadeFranqueada> unidadeRepository,
+            AppDbContext context) 
         {
             _vendaRepository = vendaRepository;
             _produtoRepository = produtoRepository;
             _estoqueRepository = estoqueRepository;
             _unidadeRepository = unidadeRepository;
+            _context = context;
         }
 
         public async Task<Venda> RegistrarVendaAsync(NovaVendaDTO dto)
         {
-            // Regra 1 e 2: Validar unidade e presença de itens
+            // --- SUA LÓGICA BLINDADA ESTÁ MANTIDA INTACTA ---
             var unidade = await _unidadeRepository.ObterPorIdAsync(dto.UnidadeFranqueadaId);
             if (unidade == null || unidade.Status == StatusUnidade.Inativa)
                 throw new Exception("Unidade não encontrada ou a unidade está Inativa. Operação cancelada.");
@@ -42,29 +47,24 @@ namespace Franquias.Api.Services
                 Itens = new List<ItemVenda>()
             };
 
-            // Regra 3 e 4: Calcular total e abater estoque
             foreach (var itemDto in dto.Itens)
             {
                 var produto = await _produtoRepository.ObterPorIdAsync(itemDto.ProdutoServicoId);
                 if (produto == null || !produto.Ativo)
                     throw new Exception($"Produto ID {itemDto.ProdutoServicoId} não encontrado ou inativo.");
 
-                // Vai no banco buscar o estoque específico daquele produto naquela franquia
                 var estoqueList = await _estoqueRepository.BuscarAsync(e => 
                     e.ProdutoServicoId == itemDto.ProdutoServicoId && 
                     e.UnidadeFranqueadaId == dto.UnidadeFranqueadaId);
                     
                 var estoque = estoqueList.FirstOrDefault();
 
-                // Trava de segurança absoluta do Estoque Negativo
                 if (estoque == null || estoque.Quantidade < itemDto.Quantidade)
                     throw new Exception($"Estoque insuficiente para o produto '{produto.Nome}'. Saldo atual: {estoque?.Quantidade ?? 0}, Tentativa de venda: {itemDto.Quantidade}.");
 
-                // Abate a quantidade vendida do estoque e atualiza
                 estoque.Quantidade -= itemDto.Quantidade;
                 await _estoqueRepository.AtualizarAsync(estoque);
 
-                // Calcula o preço baseado no valor do catálogo (evitando que o operador passe o preço errado)
                 novaVenda.ValorTotal += (produto.PrecoBase * itemDto.Quantidade);
                 
                 novaVenda.Itens.Add(new ItemVenda
@@ -75,21 +75,22 @@ namespace Franquias.Api.Services
                 });
             }
 
-            // Salva a venda e os itens dela de uma vez só
             await _vendaRepository.AdicionarAsync(novaVenda);
             
             return novaVenda;
         }
 
         // ====================================================================
-        // --- NOVA FERRAMENTA: A implementação de fato que vai no banco ---
+        // --- O SEGREDO DESVENDADO AQUI ---
         // ====================================================================
         public async Task<IEnumerable<Venda>> ObterTodasAsync()
         {
-            // Usamos o repositório genérico para listar tudo
-            // Nota: Se a linha abaixo ficar vermelha, troque 'ObterTodosAsync' 
-            // pelo nome exato que está no seu IRepository (ex: BuscarTodosAsync ou GetAllAsync)
-            return await _vendaRepository.ObterTodosAsync(); 
+            // Ao invés de usar o Repositório Genérico, nós usamos a chave-mestra (_context)
+            // para ir no banco e "puxar" as tabelas filhas (Itens) e os netos (Produto)
+            return await _context.Vendas
+                .Include(v => v.Itens)                   // Puxa a lista de itens daquela venda
+                    .ThenInclude(i => i.Produto)         // Para cada item, puxa o cadastro do Produto
+                .ToListAsync();                          // Transforma tudo numa lista
         }
     }
 }

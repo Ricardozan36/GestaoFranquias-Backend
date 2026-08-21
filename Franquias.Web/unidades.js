@@ -31,11 +31,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 unidades.forEach(unidade => {
                     const tr = document.createElement('tr');
                     
-                    // Pegamos os campos adaptando para maiúsculo ou minúsculo conforme o C# devolve
                     const id = unidade.id || unidade.Id || '-';
                     const nome = unidade.nome || unidade.Nome || 'Unidade sem nome';
                     
-                    // Se o status for 1 (Ativa), pinta de verde. Se não, pinta de vermelho.
                     const statusCodigo = unidade.status || unidade.Status;
                     let statusHtml = '';
                     if (statusCodigo === 1 || statusCodigo === 'Ativa') {
@@ -61,9 +59,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('tabela-unidades').innerHTML = '<tr><td colspan="3" style="text-align: center;">Erro de conexão com a API.</td></tr>';
     }
 
-    // Configura o botão de sair
-    document.getElementById('btn-sair').addEventListener('click', function() {
-        localStorage.removeItem('authToken');
-        window.location.href = 'index.html';
+    // ==========================================
+    // AJUSTE: BOTÃO DE SAIR AGORA VOLTA PRO PDV
+    // ==========================================
+    document.getElementById('btn-sair').addEventListener('click', function(e) {
+        e.preventDefault();
+        // Apenas recuamos para a tela de operação sem destruir o acesso do sistema
+        window.location.href = 'pdv.html';
     });
 });

@@ -1,15 +1,12 @@
 document.addEventListener('DOMContentLoaded', async function() {
     
-    // 1. Pega a chave do cofre
     const token = localStorage.getItem('authToken');
 
-    // Se não tiver token, expulsa de volta pro Login
     if (!token) {
         window.location.href = 'index.html';
         return;
     }
 
-    // Configuração padrão para as requisições
     const fetchOptions = {
         method: 'GET',
         headers: {
@@ -31,37 +28,56 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (resVendas.ok) {
             const vendas = await resVendas.json();
             
-            // 1. Soma o valor para o Cartão Superior
             let totalFaturamento = 0;
             vendas.forEach(venda => {
-                totalFaturamento += (venda.valor || venda.Valor || 0);
+                totalFaturamento += (venda.valorTotal || venda.ValorTotal || 0);
             });
             document.getElementById('valor-faturamento').innerText = totalFaturamento.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-            // 2. Preenche a Tabela Inferior (Pegando as 5 últimas)
             const tabelaVendas = document.getElementById('tabela-vendas');
-            tabelaVendas.innerHTML = ''; // Limpa o "Carregando..."
+            tabelaVendas.innerHTML = ''; 
 
-            // Pega os 5 últimos registros e inverte a ordem (para o mais novo ficar no topo)
             const ultimasVendas = vendas.slice(-5).reverse();
 
             if (ultimasVendas.length === 0) {
-                tabelaVendas.innerHTML = '<tr><td colspan="3" style="text-align: center;">Nenhuma venda registrada ainda.</td></tr>';
+                // Ajustado para ocupar 4 colunas agora (colspan="4")
+                tabelaVendas.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhuma venda registrada ainda.</td></tr>';
             } else {
                 ultimasVendas.forEach(venda => {
                     const tr = document.createElement('tr');
                     
                     const id = venda.id || venda.Id || '-';
-                    const valorFormatado = (venda.valor || venda.Valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    const valorFormatado = (venda.valorTotal || venda.ValorTotal || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                     
-                    // Se a sua API envia a data da venda, formatamos. Senão, fica um tracinho.
                     let dataFormatada = "-";
-                    if (venda.data || venda.Data) {
-                        dataFormatada = new Date(venda.data || venda.Data).toLocaleDateString('pt-BR');
+                    if (venda.dataVenda || venda.DataVenda) {
+                        dataFormatada = new Date(venda.dataVenda || venda.DataVenda).toLocaleDateString('pt-BR');
+                    }
+
+                    // ==========================================
+                    // NOVA LÓGICA INTELIGENTE DOS PRODUTOS
+                    // ==========================================
+                    let descricaoProdutos = "Itens da venda";
+                    const listaItens = venda.itens || venda.Itens;
+
+                    if (listaItens && listaItens.length > 0) {
+                        const nomes = listaItens.map(item => {
+                            // Tenta pegar o nome do produto se o C# tiver enviado o objeto aninhado
+                            const prod = item.produto || item.Produto;
+                            if (prod && (prod.nome || prod.Nome)) {
+                                return prod.nome || prod.Nome;
+                            }
+                            // Fallback caso o C# mande só os IDs e as quantidades
+                            const qtd = item.quantidade || item.Quantidade || 1;
+                            return `${qtd}x Item(s)`; 
+                        });
+                        // Junta os nomes com vírgula
+                        descricaoProdutos = nomes.join(', ');
                     }
 
                     tr.innerHTML = `
                         <td>#${id}</td>
+                        <td style="font-weight: 500; color: #3f4254;">${descricaoProdutos}</td> <!-- NOVA CÉLULA AQUI -->
                         <td>${dataFormatada}</td>
                         <td class="text-success" style="font-weight: 500;">${valorFormatado}</td>
                     `;
@@ -70,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         } else {
             document.getElementById('valor-faturamento').innerText = "R$ 0,00";
-            document.getElementById('tabela-vendas').innerHTML = '<tr><td colspan="3" style="text-align: center;">Erro ao carregar vendas.</td></tr>';
+            document.getElementById('tabela-vendas').innerHTML = '<tr><td colspan="4" style="text-align: center;">Erro ao carregar vendas.</td></tr>';
         }
 
         // --- BUSCA CHAMADOS ---
@@ -89,9 +105,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('qtd-chamados').innerText = "Erro";
     }
 
-    // Configura o botão de sair
-    document.getElementById('btn-sair').addEventListener('click', function() {
-        localStorage.removeItem('authToken');
-        window.location.href = 'index.html';
+    // Botão de Sair 
+    document.getElementById('btn-sair').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'pdv.html';
     });
 });
