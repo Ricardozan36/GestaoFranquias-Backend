@@ -21,7 +21,7 @@ namespace Franquias.Api.Entities
         public DateTime DataInicio { get; set; }
         public StatusUnidade Status { get; set; } = StatusUnidade.Ativa;
         
-        // Chave Estrangeira e Relacionamento
+        
         public int FranqueadoraId { get; set; }
         public Franqueadora? Franqueadora { get; set; }
     }

@@ -44,7 +44,7 @@ namespace Franquias.Api.Controllers
                 return BadRequest(new { mensagem = "O ID da URL não corresponde ao ID do corpo da requisição." });
 
             await _repository.AtualizarAsync(produtoAtualizado);
-            return NoContent(); // 204 No Content é o padrão REST para atualizações bem-sucedidas
+            return NoContent(); 
         }
     }
 }

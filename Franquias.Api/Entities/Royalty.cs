@@ -13,7 +13,7 @@ namespace Franquias.Api.Entities
         public decimal PercentualAplicado { get; set; }
         public decimal ValorCobrado { get; set; }
         
-        // Status: Pendente, Pago, Atrasado
+        
         public string StatusPagamento { get; set; } = "Pendente";
         
         public DateTime DataGeracao { get; set; } = DateTime.Now;

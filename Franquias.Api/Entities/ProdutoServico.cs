@@ -23,7 +23,7 @@ namespace Franquias.Api.Entities
         public int Id { get; set; }
         public int Quantidade { get; set; }
         
-        // Relacionamentos
+        
         public int ProdutoServicoId { get; set; }
         public ProdutoServico? Produto { get; set; }
         

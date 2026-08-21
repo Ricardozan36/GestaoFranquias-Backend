@@ -7,7 +7,7 @@ namespace Franquias.Api.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        // Suas tabelas que já existem e estão funcionando perfeitamente:
+        
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Franqueadora> Franqueadoras { get; set; }
         public DbSet<UnidadeFranqueada> Unidades { get; set; }
@@ -16,11 +16,11 @@ namespace Franquias.Api.Data
         public DbSet<Estoque> Estoques { get; set; }
         public DbSet<Venda> Vendas { get; set; }
 
-        // ADICIONE ESTAS DUAS NOVAS LINHAS:
+        
         public DbSet<ChamadoSuporte> Chamados { get; set; }
         public DbSet<Royalty> Royalties { get; set; }
 
-        // (Mantenha o método OnModelCreating intacto abaixo)
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UnidadeFranqueada>()

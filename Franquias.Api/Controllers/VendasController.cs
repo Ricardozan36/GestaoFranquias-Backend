@@ -15,7 +15,7 @@ namespace Franquias.Api.Controllers
             _vendasService = vendasService;
         }
 
-        // --- PORTA DE ENTRADA (Cria novas vendas) ---
+        
         [HttpPost]
         public async Task<IActionResult> RegistrarVenda([FromBody] NovaVendaDTO dto)
         {
@@ -30,15 +30,13 @@ namespace Franquias.Api.Controllers
             }
         }
 
-        // --- PORTA DE SAÍDA (Envia as vendas para o Dashboard) ---
+        
         [HttpGet]
         public async Task<IActionResult> ListarVendas()
         {
             try
             {
-                // ATENÇÃO: O nome do método abaixo (ObterTodasAsync) pode estar um pouquinho diferente 
-                // no seu IVendasService (ex: ListarVendasAsync, BuscarTodas, etc). 
-                // Se ficar com sublinhado vermelho, apenas troque para o nome correto que está no seu Service!
+                
                 var vendas = await _vendasService.ObterTodasAsync(); 
                 return Ok(vendas);
             }

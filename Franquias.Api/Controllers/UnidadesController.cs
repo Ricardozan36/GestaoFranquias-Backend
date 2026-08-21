@@ -1,7 +1,7 @@
 using Franquias.Api.Entities;
 using Franquias.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Necessário para capturarmos o erro de banco de dados
+using Microsoft.EntityFrameworkCore; 
 using Microsoft.AspNetCore.Authorization;
 
 namespace Franquias.Api.Controllers
@@ -40,16 +40,16 @@ namespace Franquias.Api.Controllers
         {
             try
             {
-                // Tenta salvar no banco
+                
                 await _repository.AdicionarAsync(unidade);
                 return CreatedAtAction(nameof(ObterPorId), new { id = unidade.Id }, unidade);
             }
-            // Captura especificamente o erro de violação de regra única (CNPJ duplicado)
+            
             catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("UNIQUE constraint failed") == true)
             {
                 return BadRequest(new { mensagem = "Erro de validação: Já existe uma unidade cadastrada com este CNPJ." });
             }
-            // Captura qualquer outro erro genérico
+            
             catch (Exception)
             {
                 return StatusCode(500, new { mensagem = "Ocorreu um erro interno ao tentar salvar a unidade." });

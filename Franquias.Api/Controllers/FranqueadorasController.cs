@@ -10,7 +10,7 @@ namespace Franquias.Api.Controllers
     {
         private readonly IRepository<Franqueadora> _repository;
 
-        // Injetando o nosso motor de banco de dados
+        
         public FranqueadorasController(IRepository<Franqueadora> repository)
         {
             _repository = repository;
