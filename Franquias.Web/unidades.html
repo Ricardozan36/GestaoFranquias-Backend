@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidades - Gestão de Franquias S/A</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-layout">
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestão S/A</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard Geral</a></li>
+            <li><a href="unidades.html" class="active">Unidades</a></li>
+            <li><a href="#" id="btn-sair">Sair do Sistema</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-header">
+            <h1>Gestão de Unidades</h1>
+            <p>Listagem completa de todas as franquias cadastradas na rede.</p>
+        </header>
+
+        <div class="recent-sales-section mt-4">
+            <div class="card">
+                <h3>Unidades Ativas e Inativas</h3>
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome da Unidade</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-unidades">
+                        <tr>
+                            <td colspan="3" style="text-align: center;">Carregando unidades...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="unidades.js"></script>
+</body>
+</html>

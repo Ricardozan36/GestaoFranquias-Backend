@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Franquias S/A - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-card">
+            <h2>Novo Usuário</h2>
+            <p>Crie sua conta para acessar o sistema.</p>
+            
+            <div class="input-group">
+                <label for="nome-cad">Nome Completo</label>
+                <input type="text" id="nome-cad" placeholder="Ex: Administrador">
+            </div>
+
+            <div class="input-group">
+                <label for="email-cad">E-mail</label>
+                <input type="email" id="email-cad" placeholder="email@franquia.com">
+            </div>
+
+            <div class="input-group">
+                <label for="senha-cad">Senha</label>
+                <input type="password" id="senha-cad" placeholder="******">
+            </div>
+
+            <p id="mensagem-cadastro" class="erro-oculto"></p>
+
+            <button id="btn-cadastrar">Finalizar Cadastro</button>
+
+            <!-- Link para voltar ao Login -->
+            <div style="margin-top: 25px; font-size: 14px;">
+                <a href="index.html" style="color: #3699ff; text-decoration: none; font-weight: 500;">Já tem uma conta? Faça Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assinatura do Projeto Acadêmico -->
+    <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: #a1a5b7; font-size: 12px;">
+        Desenvolvido por Ricardo Zan | RU 5164357
+    </div>
+
+    <script src="cadastro.js"></script>
+</body>
+</html>

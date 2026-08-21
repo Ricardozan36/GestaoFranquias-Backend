@@ -1,4 +1,6 @@
-/* Reset padrão para garantir que funcione igual em todos os navegadores */
+/* =========================================
+   RESET E FONTES
+   ========================================= */
 * {
     margin: 0;
     padding: 0;
@@ -6,224 +8,261 @@
     font-family: 'Roboto', sans-serif;
 }
 
-/* Fundo da tela de login */
 body {
-    background-color: #f4f6f8;
+    background-color: #f5f8fa; /* Fundo off-white moderno */
+    color: #3f4254;
+}
+
+/* =========================================
+   TELA DE LOGIN
+   ========================================= */
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #333;
-}
-
-/* Container para centralizar o cartão na tela */
-.login-container {
-    width: 100%;
-    max-width: 400px;
     padding: 20px;
 }
 
-/* O cartão branco do formulário com sombra */
 .login-card {
-    background-color: #ffffff;
-    padding: 40px 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 16px;
+    box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.08);
     text-align: center;
+    width: 100%;
+    max-width: 420px;
 }
 
 .login-card h2 {
+    color: #181c32;
+    font-size: 24px;
+    font-weight: 700;
     margin-bottom: 10px;
-    color: #1a1a1a;
 }
 
 .login-card p {
-    font-size: 14px;
-    color: #666;
+    color: #a1a5b7;
     margin-bottom: 30px;
 }
 
-/* Estrutura das caixas de texto */
 .input-group {
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #3f4254;
+    margin-bottom: 8px;
     display: block;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: #333;
 }
 
 .input-group input {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: border-color 0.3s;
+    padding: 14px 16px;
+    background-color: #f5f8fa;
+    border: 1px solid #e4e6ef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
 }
 
-/* Efeito ao clicar na caixa de texto */
 .input-group input:focus {
-    border-color: #5C6BC0; /* Azul corporativo */
+    background-color: #ffffff;
+    border-color: #3699ff;
+    box-shadow: 0 0 0 3px rgba(54, 153, 255, 0.1);
     outline: none;
 }
 
-/* Botão principal */
 button {
     width: 100%;
     padding: 14px;
-    background-color: #5C6BC0;
+    background-color: #3699ff;
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 500;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
     margin-top: 10px;
 }
 
 button:hover {
-    background-color: #3F51B5; /* Azul mais escuro ao passar o mouse */
+    background-color: #187de4;
+    box-shadow: 0px 4px 12px rgba(54, 153, 255, 0.3);
 }
 
-/* Ocultar a mensagem de erro por padrão */
-.erro-oculto {
-    display: none;
-}
-
-/* Estilo da mensagem de erro quando aparecer */
-#mensagem-erro {
-    color: #d32f2f;
-    font-size: 14px;
-    margin-bottom: 15px;
-    margin-top: -10px;
-    font-weight: 500;
-}
+.erro-oculto { display: none; }
+#mensagem-erro { color: #f1416c; font-size: 13px; font-weight: 500; margin: -10px 0 15px 0; }
 
 /* =========================================
-   ESTILOS DO DASHBOARD (dashboard.html)
+   DASHBOARD E UNIDADES (LAYOUT GERAL)
    ========================================= */
-
 .dashboard-layout {
     display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
-    background-color: #f4f6f8;
+    min-height: 100vh;
 }
 
-/* Menu Lateral */
+/* Sidebar Dark Premium */
 .sidebar {
-    width: 250px;
-    background-color: #343a40; 
-    color: white;
-    min-height: 100vh;
+    width: 260px;
+    background: linear-gradient(180deg, #1e1e2d 0%, #151521 100%);
+    color: #ffffff;
     display: flex;
     flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
 .sidebar-header {
-    padding: 20px;
-    background-color: #23272b;
-    border-bottom: 1px solid #4b545c;
+    padding: 30px 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.sidebar-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffffff;
 }
 
 .nav-links {
     list-style: none;
-    padding: 10px 0;
+    padding: 20px 0;
 }
 
 .nav-links li a {
-    display: block;
-    padding: 15px 20px;
-    color: #c2c7d0;
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    color: #9899ac;
     text-decoration: none;
     font-weight: 500;
-    transition: 0.3s;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
 }
 
 .nav-links li a:hover, .nav-links li a.active {
-    background-color: #4b545c;
-    color: white;
+    background-color: #1b1b29;
+    color: #ffffff;
+    border-left: 4px solid #3699ff;
 }
 
 /* Área Principal */
 .main-content {
     flex: 1;
-    padding: 40px;
+    padding: 40px 50px;
+    background-color: #f5f8fa;
+}
+
+.top-header {
+    margin-bottom: 40px;
 }
 
 .top-header h1 {
-    color: #333;
-    margin-bottom: 5px;
+    font-size: 28px;
+    color: #181c32;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
 .top-header p {
-    color: #666;
-    margin-bottom: 30px;
+    color: #a1a5b7;
+    font-size: 15px;
 }
 
-/* Grid de Cartões */
+/* =========================================
+   CARDS DE INDICADORES
+   ========================================= */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
 .card {
-    background-color: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 20px 0px rgba(82, 63, 105, 0.05);
+    border: 1px solid #eff2f5;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 25px 0px rgba(82, 63, 105, 0.1);
 }
 
 .card h3 {
-    font-size: 16px;
-    color: #666;
+    font-size: 15px;
+    color: #a1a5b7;
+    font-weight: 600;
     margin-bottom: 15px;
-    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .card-value {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 700;
+    letter-spacing: -1px;
 }
 
-/* Cores dos números */
-.text-primary { color: #5C6BC0; }
-.text-success { color: #4CAF50; }
-.text-danger { color: #F44336; }
+/* Cores vibrantes estilo SaaS */
+.text-primary { color: #3699ff; }
+.text-success { color: #1bc5bd; }
+.text-danger { color: #f1416c; }
 
 /* =========================================
-   ESTILOS DA TABELA DE VENDAS
+   TABELAS PROFISSIONAIS (DATA GRIDS)
    ========================================= */
-.mt-4 {
-    margin-top: 30px;
+.mt-4 { margin-top: 40px; }
+
+.recent-sales-section .card {
+    padding: 0; /* Remove o padding padrão para a tabela encostar nas bordas */
+    overflow: hidden;
+}
+
+.recent-sales-section h3 {
+    padding: 25px 30px 15px 30px;
+    margin: 0;
+    border-bottom: 1px solid #eff2f5;
 }
 
 .sales-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
-}
-
-.sales-table th, .sales-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
 }
 
 .sales-table th {
-    background-color: #f8f9fa;
-    color: #333;
-    font-weight: 500;
+    background-color: #fcfcfc;
+    color: #b5b5c3;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 15px 30px;
+    text-align: left;
+    border-bottom: 1px dashed #eff2f5;
+}
+
+.sales-table td {
+    padding: 18px 30px;
     font-size: 14px;
+    font-weight: 500;
+    color: #3f4254;
+    border-bottom: 1px dashed #eff2f5;
+    transition: background-color 0.2s ease;
+}
+
+.sales-table tbody tr:hover td {
+    background-color: #f9f9f9;
 }
 
 .sales-table tr:last-child td {
-    border-bottom: none; /* Tira a linha do último item para ficar elegante */
+    border-bottom: none;
 }

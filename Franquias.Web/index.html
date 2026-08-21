@@ -18,18 +18,30 @@
             
             <div class="input-group">
                 <label for="email">E-mail Corporativo</label>
-                <input type="email" id="email" placeholder="admin@franquia.com">
+                <!-- Atributo value adicionado para auto-preenchimento -->
+                <input type="email" id="email" value="admin@franquia.com" placeholder="admin@franquia.com">
             </div>
 
             <div class="input-group">
                 <label for="senha">Senha</label>
-                <input type="password" id="senha" placeholder="******">
+                <!-- Atributo value adicionado para auto-preenchimento -->
+                <input type="password" id="senha" value="123456" placeholder="******">
             </div>
 
             <p id="mensagem-erro" class="erro-oculto">E-mail ou senha incorretos.</p>
 
             <button id="btn-login">Entrar no Sistema</button>
+
+            <!-- Link para a tela de Cadastro -->
+            <div style="margin-top: 25px; font-size: 14px;">
+                <a href="cadastro.html" style="color: #3699ff; text-decoration: none; font-weight: 500;">Criar uma nova conta</a>
+            </div>
         </div>
+    </div>
+
+    <!-- Assinatura do Projeto Acadêmico -->
+    <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: #a1a5b7; font-size: 12px;">
+        Desenvolvido por Ricardo Zan | RU 5164357
     </div>
 
     <!-- Conectando o motor de JavaScript -->
